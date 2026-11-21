@@ -1,6 +1,28 @@
 import { Client } from '../client/client';
 import { Activity, ActivityType, StatusType, PresenceUpdate } from '../types/discord/presence';
 
+export interface ActivityOptions {
+  url?: string;
+  platform?: string;
+  application_id?: string;
+  details?: string;
+  state?: string;
+  timestamps?: {
+    start?: number;
+    end?: number;
+  };
+  assets?: {
+    large_image?: string;
+    large_text?: string;
+    small_image?: string;
+    small_text?: string;
+  };
+  buttons?: Array<{
+    label: string;
+    url: string;
+  }>;
+}
+
 export class PresenceManager {
   private client: Client;
   private currentStatus: StatusType = StatusType.ONLINE;
@@ -40,40 +62,49 @@ export class PresenceManager {
     this.update(options.afk, options.since);
   }
 
-  setPlaying(name: string, url?: string): void {
+  setPlaying(name: string, urlOrOptions?: string | ActivityOptions, platform?: string): void {
+    const options = this.resolveActivityOptions(urlOrOptions, platform);
     this.setActivity({
       name,
       type: ActivityType.PLAYING,
-      url
+      ...options
     });
   }
 
-  setStreaming(name: string, url: string): void {
+  setStreaming(name: string, url: string, optionsOrPlatform?: string | ActivityOptions): void {
+    const options = this.resolveActivityOptions(optionsOrPlatform);
     this.setActivity({
       name,
       type: ActivityType.STREAMING,
+      ...options,
       url
     });
   }
 
-  setListening(name: string): void {
+  setListening(name: string, optionsOrPlatform?: string | ActivityOptions): void {
+    const options = this.resolveActivityOptions(optionsOrPlatform);
     this.setActivity({
       name,
-      type: ActivityType.LISTENING
+      type: ActivityType.LISTENING,
+      ...options
     });
   }
 
-  setWatching(name: string): void {
+  setWatching(name: string, optionsOrPlatform?: string | ActivityOptions): void {
+    const options = this.resolveActivityOptions(optionsOrPlatform);
     this.setActivity({
       name,
-      type: ActivityType.WATCHING
+      type: ActivityType.WATCHING,
+      ...options
     });
   }
 
-  setCompeting(name: string): void {
+  setCompeting(name: string, optionsOrPlatform?: string | ActivityOptions): void {
+    const options = this.resolveActivityOptions(optionsOrPlatform);
     this.setActivity({
       name,
-      type: ActivityType.COMPETING
+      type: ActivityType.COMPETING,
+      ...options
     });
   }
 
@@ -93,6 +124,21 @@ export class PresenceManager {
   clear(): void {
     this.currentActivities = [];
     this.update();
+  }
+
+  private resolveActivityOptions(value?: string | ActivityOptions, platform?: string): ActivityOptions {
+    if (!value) {
+      return platform ? { platform } : {};
+    }
+
+    if (typeof value === 'string') {
+      if (platform !== undefined || /^https?:\/\//.test(value)) {
+        return { url: value, platform };
+      }
+      return { platform: value };
+    }
+
+    return value;
   }
 
   private update(afk: boolean = false, since: number | null = null): void {

@@ -57,6 +57,30 @@ export interface Activity {
   name: string;
   type: number;
   url?: string;
+  platform?: string;
+  created_at?: number;
+  timestamps?: {
+    start?: number;
+    end?: number;
+  };
+  application_id?: string;
+  details?: string;
+  state?: string;
+  emoji?: {
+    name: string;
+    id?: string;
+    animated?: boolean;
+  };
+  assets?: {
+    large_image?: string;
+    large_text?: string;
+    small_image?: string;
+    small_text?: string;
+  };
+  buttons?: Array<{
+    label: string;
+    url: string;
+  }>;
 }
 
 export interface ClientState {

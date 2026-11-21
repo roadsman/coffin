@@ -53,6 +53,7 @@ export interface Activity {
     label: string;
     url: string;
   }>;
+  platform?: string;
 }
 
 export interface PresenceUpdate {
