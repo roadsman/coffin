@@ -1,0 +1,35 @@
+{
+  "name": "coffin",
+  "version": "1.0.0",
+  "description": "A lightweight Discord selfbot library for TypeScript.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roadsman/coffin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/roadsman/coffin/issues"
+  },
+  "homepage": "https://github.com/roadsman/coffin#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/pako": "^2.0.4",
+    "@types/ws": "^8.18.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "pako": "^3.0.3",
+    "undici": "^8.12.4",
+    "ws": "^8.23.0"
+  }
+}
