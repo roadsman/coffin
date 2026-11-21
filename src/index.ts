@@ -27,6 +27,7 @@ export { CacheManager } from './cache/manager';
 export { CacheEntry } from './cache/options';
 export type { CacheOptions, CacheConfig } from './cache/options';
 export { PresenceManager } from './managers/presence';
+export type { ActivityOptions } from './managers/presence';
 export { User } from './structures/user';
 export { Message } from './structures/message';
 export { Channel, ChannelType } from './structures/channel';
